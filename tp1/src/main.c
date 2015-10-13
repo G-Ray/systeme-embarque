@@ -4,13 +4,15 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <ctype.h>
 #include "colimacon.h"
 #include "tests.h"
 
 /*
 * Print a 2D Array
 */
-void print2DArray(int **array, int rows, int columns)
+void print2DArray(int *array, int rows, int columns)
 {
         int i,
             j;
@@ -18,66 +20,71 @@ void print2DArray(int **array, int rows, int columns)
         printf("\n");
         for (i = 0; i < rows; i++) {
                 for (j = 0; j < columns; j++)
-                printf("%4d", array[i][j]);
+                        printf("%4d", array[i * columns + j]);
                 printf("\n\n");
         }
         printf("\n");
 }
 
-/*
-* Destroy a 2D Array
-*/
-void destroy2DArray(int **array, int rows, int columns)
-{
-        int i;
-
-        for (i = 0; i < rows; i++)
-        {
-                free(array[i]);
-        }
-        free(array);
-}
-
 int main(int argc, char *argv[])
 {
         int *array = NULL;
+        int c,
+            index;
+        int tests_flag = 0;
         int rows,
             columns;
 
-        if (argc != 3)
-        {
-                printf("Usage: %s rows columns\n", argv[0]);
-                return 1; //error
+        while ((c = getopt(argc, argv, "t")) != -1)
+                switch (c)
+                {
+                        case 't':
+                                tests_flag = 1;
+                                break;
+                        case '?':
+                                if (isprint (optopt))
+                                        fprintf (stderr,
+                                        "Unknown option `-%c'.\n", optopt);
+                                else
+                                        fprintf (stderr,
+                                        "Unknown option character `\\x%x'.\n",
+                                        optopt);
+                                        return 1;
+                        default:
+                                abort ();
         }
 
         /*** Tests ***/
-        run_all_tests();
+        if (tests_flag == 1)
+                run_all_tests();
         /*************/
 
-        //TODO: Verify args are int
-        rows = atoi(argv[1]);
-        columns = atoi(argv[2]);
+        if (argc < 3 || argc > 4) {
+                printf("Usage: %s [-t] rows columns\n", argv[0]);
+                return 1; //error
+        }
 
-        if(rows < 1 || columns < 1) {
+        rows = atoi(argv[optind]);
+        columns = atoi(argv[optind+1]);
 
+        if (rows < 1 || columns < 1) {
+                printf("Usage: %s [-t] rows columns\n", argv[0]);
+                return 1; //error
         }
 
         printf("Computing with %d rows and %d columns\n", rows, columns);
 
-        //TODO: error handlings
         if (colimacon(&array, rows, columns) == 0)
         {
                 printf("FAILED building colimacon");
                 return 1; //Error
         }
 
-        //array is now a 2D array
-        int **tab = (int **) array;
+        print2DArray(array, rows, columns);
 
-        print2DArray(tab, rows, columns);
-        destroy2DArray(tab, rows, columns);
-        //should fail after destroy2DArray
-        //print2DArray(tab, rows, columns);
+        free(array);
+        //should fail after the array has been freed
+        //print2DArray(array, rows, columns);
 
         return 1;
 }

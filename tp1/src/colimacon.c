@@ -2,6 +2,10 @@
  * Author: Geoffrey Bonneville <geoffrey.bonneville@gmail.com>
  */
 
+/*#define TAB(int i, int j) {
+        return tab[i*]
+}*/
+
 #include "colimacon.h"
 
 /*
@@ -21,25 +25,20 @@ int colimacon(int **array, unsigned int rows, unsigned int columns)
             col_min = 0,
             col_max = columns-1;
 
-        int **tab;
+        int *tab;
 
-        if(rows < 1 || columns < 1)
+        if (rows < 1 || columns < 1)
         return 0; //echec
 
         /* Memory allocation */
-        tab = malloc(rows * sizeof(int *));
+        tab = malloc(rows * columns * sizeof(int));
         if (tab == NULL) return 0; //Out of memory
-        for (i = 0; i < rows; i++)
-        {
-                tab[i] =  malloc(columns * sizeof(int));
-                if (tab[i] == NULL) return 0; //Out of memory
-        }
 
         /* Filling */
         while (processed < cases)
         {
                 for (i = col_min; i <= col_max; i++) {
-                        tab[row_min][i] = cpt;
+                        tab[row_min * columns + i] = cpt;
                         cpt++;
                         processed++;
                 }
@@ -48,7 +47,7 @@ int colimacon(int **array, unsigned int rows, unsigned int columns)
                 if (processed >= cases) break;
 
                 for (i = row_min; i <= row_max; i++) {
-                        tab[i][col_max] = cpt;
+                        tab[i * columns + col_max] = cpt;
                         cpt++;
                         processed++;
                 }
@@ -57,7 +56,7 @@ int colimacon(int **array, unsigned int rows, unsigned int columns)
                 if (processed >= cases) break;
 
                 for (i = col_max; i >= col_min; i--) {
-                        tab[row_max][i] = cpt;
+                        tab[row_max * columns + i] = cpt;
                         cpt++;
                         processed++;
                 }
@@ -66,7 +65,7 @@ int colimacon(int **array, unsigned int rows, unsigned int columns)
                 if (processed >= cases) break;
 
                 for (i = row_max; i >= row_min; i--) {
-                        tab[i][col_min] = cpt;
+                        tab[i * columns + col_min] = cpt;
                         cpt++;
                         processed++;
                 }
@@ -74,7 +73,7 @@ int colimacon(int **array, unsigned int rows, unsigned int columns)
                 col_min++;
         }
 
-        *array = (int *)tab;
+        *array = tab;
 
         return 1;
 }
