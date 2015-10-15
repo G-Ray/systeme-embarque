@@ -39,10 +39,10 @@ static int test5[1][1] = {
         {1}
 };
 
-int compare_2D_arrays(const int rows, const int columns,
+int compare_2D_arrays(const unsigned int rows, const unsigned int columns,
                         int testArray[rows][columns], int *array)
 {
-        int i, j;
+        unsigned int i, j;
 
         for (i = 0; i < rows; i++) {
                 for (j = 0; j < columns; j++) {
@@ -64,8 +64,8 @@ int compare_2D_arrays(const int rows, const int columns,
 int run_all_tests()
 {
         int *array = NULL;
-        int rows = 3;
-        int columns = 4;
+        unsigned int rows = 3;
+        unsigned int columns = 4;
 
         /* Test 1 */
         printf("Running test 1... ");

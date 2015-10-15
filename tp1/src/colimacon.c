@@ -16,14 +16,14 @@ int colimacon(int **array, unsigned int rows, unsigned int columns)
 {
         int i;
         int cpt = 1; //Current number used to fill the array
-        int cases = rows * columns; //Total number of cases
         int processed = 0; //Number of cases filled
+        unsigned int cases = rows * columns; //Total number of cases
 
         //Array bounds
-        int row_min = 0,
-            row_max = rows-1,
-            col_min = 0,
-            col_max = columns-1;
+        unsigned int row_min = 0,
+                     row_max = rows-1,
+                     col_min = 0,
+                     col_max = columns-1;
 
         int *tab;
 
@@ -55,7 +55,7 @@ int colimacon(int **array, unsigned int rows, unsigned int columns)
 
                 if (processed >= cases) break;
 
-                for (i = col_max; i >= col_min; i--) {
+                for (i = col_max; i >= (int)col_min; i--) {
                         tab[row_max * columns + i] = cpt;
                         cpt++;
                         processed++;
@@ -64,7 +64,7 @@ int colimacon(int **array, unsigned int rows, unsigned int columns)
 
                 if (processed >= cases) break;
 
-                for (i = row_max; i >= row_min; i--) {
+                for (i = row_max; i >= (int)row_min; i--) {
                         tab[i * columns + col_min] = cpt;
                         cpt++;
                         processed++;

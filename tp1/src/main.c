@@ -12,9 +12,9 @@
 /*
  * Print a 2D Array
  */
-void print2DArray(int *array, int rows, int columns)
+void print2DArray(int *array, unsigned int rows, unsigned int columns)
 {
-        int i,
+        unsigned int i,
             j;
 
         printf("\n");
@@ -32,8 +32,8 @@ int main(int argc, char *argv[])
         int c;
         int tests_flag = 0;
         int print_flag = 1;
-        int rows,
-            columns;
+        unsigned int rows,
+                     columns;
 
         while ((c = getopt(argc, argv, "tp")) != -1)
                 switch (c)
