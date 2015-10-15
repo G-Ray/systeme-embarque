@@ -10,8 +10,8 @@
 #include "tests.h"
 
 /*
-* Print a 2D Array
-*/
+ * Print a 2D Array
+ */
 void print2DArray(int *array, int rows, int columns)
 {
         int i,
@@ -29,17 +29,20 @@ void print2DArray(int *array, int rows, int columns)
 int main(int argc, char *argv[])
 {
         int *array = NULL;
-        int c,
-            index;
+        int c;
         int tests_flag = 0;
+        int print_flag = 1;
         int rows,
             columns;
 
-        while ((c = getopt(argc, argv, "t")) != -1)
+        while ((c = getopt(argc, argv, "tp")) != -1)
                 switch (c)
                 {
                         case 't':
                                 tests_flag = 1;
+                                break;
+                        case 'p':
+                                print_flag = 0;
                                 break;
                         case '?':
                                 if (isprint (optopt))
@@ -57,10 +60,9 @@ int main(int argc, char *argv[])
         /*** Tests ***/
         if (tests_flag == 1)
                 run_all_tests();
-        /*************/
 
-        if (argc < 3 || argc > 4) {
-                printf("Usage: %s [-t] rows columns\n", argv[0]);
+        if (argc < 3) {
+                printf("Usage: %s [-t -p] rows columns\n", argv[0]);
                 return 1; //error
         }
 
@@ -68,23 +70,24 @@ int main(int argc, char *argv[])
         columns = atoi(argv[optind+1]);
 
         if (rows < 1 || columns < 1) {
-                printf("Usage: %s [-t] rows columns\n", argv[0]);
+                printf("Usage: %s [-t -p] rows columns\n", argv[0]);
                 return 1; //error
         }
 
-        printf("Computing with %d rows and %d columns\n", rows, columns);
+        printf("\nComputing with %d rows and %d columns\n", rows, columns);
 
+        //Build the colimacon
         if (colimacon(&array, rows, columns) == 0)
         {
                 printf("FAILED building colimacon");
                 return 1; //Error
         }
 
-        print2DArray(array, rows, columns);
+        if (print_flag == 1)
+                print2DArray(array, rows, columns);
 
+        //Do not forget to free the array
         free(array);
-        //should fail after the array has been freed
-        //print2DArray(array, rows, columns);
 
         return 1;
 }
