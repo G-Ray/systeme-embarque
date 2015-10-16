@@ -1,10 +1,7 @@
 /*
  * Author: Geoffrey Bonneville <geoffrey.bonneville@gmail.com>
+ * TP1
  */
-
-/*#define TAB(int i, int j) {
-        return tab[i*]
-}*/
 
 #include "colimacon.h"
 

@@ -16,5 +16,4 @@ $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(CFLAGS) $< -o $@
 
 clean:
-	rm *o $(EXECUTABLE)
-	rm *a
+	rm *o $(EXECUTABLE) *a

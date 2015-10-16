@@ -1,6 +1,7 @@
 /*
-* Author: Geoffrey Bonneville <geoffrey.bonneville@gmail.com>
-*/
+ * Author: Geoffrey Bonneville <geoffrey.bonneville@gmail.com>
+ * TP1
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
